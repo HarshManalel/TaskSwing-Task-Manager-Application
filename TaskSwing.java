@@ -43,24 +43,29 @@ class TaskManager {
 }
 
 public class TaskSwing {
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private JFrame frame;
+    private JTextArea taskTextArea;
+    private JTextField inputField;
+    private JTextArea projectInfo;
+    private TaskManager taskManager;
 
-        JFrame frame = new JFrame("TaskSwing - Java Swing-based Task Manager Application");
+    public TaskSwing() {
+        taskManager = new TaskManager();
+        initializeUI();
+    }
+
+    private void initializeUI() {
+        frame = new JFrame("TaskSwing - Java Swing-based Task Manager Application");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLayout(new BorderLayout());
 
         Font timesNewRomanFont = new Font("Times New Roman", Font.PLAIN, 16);
 
-        JTextArea taskTextArea = new JTextArea();
+        taskTextArea = new JTextArea();
         taskTextArea.setEditable(false);
 
-        JTextField inputField = new JTextField();
+        inputField = new JTextField();
         inputField.setFont(timesNewRomanFont);
 
         JButton addButton = new JButton("Add Task");
@@ -79,7 +84,7 @@ public class TaskSwing {
         panel.setLayout(new BorderLayout());
         panel.setBackground(Color.BLACK);
 
-        JTextArea projectInfo = new JTextArea("Project Information:\n", 10, 30);
+        projectInfo = new JTextArea("Project Information:\n", 10, 30);
         projectInfo.setEditable(false);
         projectInfo.setWrapStyleWord(true);
         projectInfo.setBackground(Color.BLACK);
@@ -107,7 +112,7 @@ public class TaskSwing {
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String description = inputField.getText();
-                new TaskManager().addTask(description);
+                taskManager.addTask(description);
                 inputField.setText("");
             }
         });
@@ -115,7 +120,7 @@ public class TaskSwing {
         listButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 taskTextArea.setText(""); // Clear previous content
-                ArrayList<Task> tasks = new TaskManager().getTasks();
+                ArrayList<Task> tasks = taskManager.getTasks();
                 for (int i = 0; i < tasks.size(); i++) {
                     Task task = tasks.get(i);
                     taskTextArea.append(task.description + " - " + (task.completed ? "Completed" : "Incomplete") + "\n");
@@ -128,7 +133,7 @@ public class TaskSwing {
                 String input = JOptionPane.showInputDialog("Enter the index of the task to mark as complete:");
                 try {
                     int index = Integer.parseInt(input);
-                    new TaskManager().markTaskAsComplete(index);
+                    taskManager.markTaskAsComplete(index);
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid index.");
                 }
@@ -150,5 +155,19 @@ public class TaskSwing {
         frame.add(new JScrollPane(projectInfo), BorderLayout.WEST);
         frame.add(teamPanel, BorderLayout.CENTER);
         frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new TaskSwing();
+            }
+        });
     }
 }
