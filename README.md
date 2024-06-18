@@ -34,10 +34,3 @@ TaskSwing stands out as a sophisticated Java Swing-based task manager applicatio
 ## Results and Analysis
 
 TaskSwing successfully meets its objectives of enhancing task management efficiency through intuitive design and robust functionality. User feedback highlights its usability and real-time updates, while performance metrics indicate optimal efficiency and responsiveness. The application's lightweight nature and comprehensive feature set make it a standout choice for Java-based task management solutions.
-
-## Installation and Usage
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your_username/TaskSwing.git
-   cd TaskSwing
